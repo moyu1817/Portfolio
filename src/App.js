@@ -4,7 +4,7 @@ import Footer from "./Components/Footer";
 import Home from "./Pages/Home";
 function App() {
   return (
-    <Router>
+    <Router basename={process.env.PUBLIC_URL}>
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />

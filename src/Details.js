@@ -33,7 +33,7 @@ export const personalDetails = {
   intro: "I like to build backend systems, AI-powered tools, and data dashboards that turn raw data into useful answers, using Python, FastAPI, OpenAI, Claude, and Tableau.",
   img: profile,
   // Resume file placed in the public folder
-  resume: "/MoeYu_CV.pdf",
+  resume: `${process.env.PUBLIC_URL}/MoeYu_CV.pdf`,
   about: `I'm a Computer Engineering graduate from Mae Fah Luang University (GPAX 3.79/4.0) who builds backend systems with Python, FastAPI, MongoDB, and MySQL. I contributed to an AI-powered analytics platform at Codigo integrating OpenAI, Claude, and Groq, validating 230+ business queries. Now at DVB Association, I build database features and Tableau dashboards for research reporting. I speak Burmese (native) and English (fluent), and I'm currently studying Japanese (N4). Based in Chiang Mai, Thailand and open to relocate.`,
 };
 
