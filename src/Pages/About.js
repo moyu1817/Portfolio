@@ -4,17 +4,22 @@ import { personalDetails, workDetails, eduDetails } from "../Details";
 
 function About() {
   return (
-    <div className="pt-20">
+    <div className="pt-24">
       <section>
-        <h1 className="text-2xl text-dark-heading dark:text-light-heading md:text-4xl xl:text-5xl xl:leading-tight font-bold">
+        <h2 className="section-title">
           About Me
-        </h1>
-        <p className="text-content py-8 lg:max-w-3xl">{personalDetails.about}</p>
+        </h2>
+        {/* Paragraphs are split on blank lines in Details.js; max-w-2xl keeps lines around 70 characters */}
+        <div className="text-content max-w-2xl pt-6 space-y-4">
+          {personalDetails.about.split(/\n\s*\n/).map((para) => (
+            <p key={para.slice(0, 20)}>{para.trim()}</p>
+          ))}
+        </div>
       </section>
       <section>
-        <h1 className="text-2xl text-dark-heading dark:text-light-heading md:text-4xl xl:text-5xl xl:leading-tight font-bold">
+        <h2 className="section-title pt-16">
           Work Experience
-        </h1>
+        </h2>
         <ol className="timeline mt-10">
           {React.Children.toArray(
             workDetails.map(({ Position, Company, Location, Type, Duration, Summary }) => (
@@ -31,9 +36,9 @@ function About() {
         </ol>
       </section>
       <section>
-        <h1 className="text-2xl pt-16 text-dark-heading dark:text-light-heading md:text-4xl xl:text-5xl xl:leading-tight font-bold">
+        <h2 className="section-title pt-16">
           Education
-        </h1>
+        </h2>
         <ol className="timeline mt-10">
           {React.Children.toArray(
             eduDetails.map(({ Position, Company, Location, Type, Duration }) => (

@@ -11,14 +11,14 @@ const readSaved = () => {
 };
 
 const SunIcon = () => (
-  <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+  <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
     <circle cx="12" cy="12" r="4" />
     <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
   </svg>
 );
 
 const MoonIcon = () => (
-  <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+  <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
     <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
   </svg>
 );
@@ -57,7 +57,8 @@ function ThemeToggle() {
   };
 
   const label = dark ? "Switch to light mode" : "Switch to dark mode";
-  // Sliding switch: a tinted track with a gradient knob showing the current mode (sun = light, moon = dark)
+  // Sliding switch: a solid track styled like .btn-secondary (border and track icons turn teal on hover), with a faint sun (left) and moon (right) on it;
+  // the gradient knob (same colours as .btn-primary) slides over the active one
   return (
     <button
       type="button"
@@ -66,10 +67,16 @@ function ThemeToggle() {
       onClick={toggle}
       aria-label={label}
       title={label}
-      className="group relative h-8 w-14 shrink-0 rounded-full p-1 bg-gradient-to-r from-teal-500/20 via-cyan-500/20 to-sky-500/20 dark:from-teal-400/20 dark:via-cyan-400/20 dark:to-sky-400/20 ring-1 ring-teal-600/20 dark:ring-teal-400/25 hover:ring-teal-500/50 dark:hover:ring-teal-400/50 transition"
+      className="group relative h-8 w-[58px] shrink-0 rounded-full p-1 border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-dark-mode hover:border-teal-600 dark:hover:border-teal-300 transition-colors duration-150"
     >
+      <span className="absolute inset-y-0 left-2 flex items-center text-zinc-400 dark:text-zinc-500 group-hover:text-teal-600 dark:group-hover:text-teal-300 transition-colors duration-150" aria-hidden="true">
+        <SunIcon />
+      </span>
+      <span className="absolute inset-y-0 right-2 flex items-center text-zinc-400 dark:text-zinc-500 group-hover:text-teal-600 dark:group-hover:text-teal-300 transition-colors duration-150" aria-hidden="true">
+        <MoonIcon />
+      </span>
       <span
-        className={`flex h-6 w-6 items-center justify-center rounded-full bg-accent shadow-sm transition-transform duration-300 ease-out group-active:scale-90 ${
+        className={`relative flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-r from-teal-600 via-cyan-600 to-sky-600 text-white dark:from-teal-300 dark:via-cyan-300 dark:to-sky-400 dark:text-dark-mode shadow-sm transition-transform duration-[250ms] ease-out group-active:scale-90 ${
           dark ? "translate-x-6" : "translate-x-0"
         }`}
       >

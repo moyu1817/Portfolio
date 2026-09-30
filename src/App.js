@@ -2,9 +2,11 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 import Home from "./Pages/Home";
+import BlueprintDrawings from "./Components/BlueprintDrawings";
 function App() {
   return (
     <Router basename={process.env.PUBLIC_URL}>
+      <BlueprintDrawings />
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />

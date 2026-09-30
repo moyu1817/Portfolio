@@ -34,7 +34,10 @@ export const personalDetails = {
   img: profile,
   // Resume file placed in the public folder
   resume: `${process.env.PUBLIC_URL}/MoeYu_CV.pdf`,
-  about: `I'm a Computer Engineering graduate from Mae Fah Luang University (GPAX 3.79/4.0) who builds backend systems with Python, FastAPI, MongoDB, and MySQL. I contributed to an AI-powered analytics platform at Codigo integrating OpenAI, Claude, and Groq, validating 230+ business queries. Now at DVB Association, I build database features and Tableau dashboards for research reporting. I speak Burmese (native) and English (fluent), and I'm currently studying Japanese (N4). Based in Chiang Mai, Thailand and open to relocate.`,
+  // A blank line starts a new paragraph
+  about: `I'm a Computer Engineering graduate from Mae Fah Luang University (GPAX 3.79/4.0) who builds backend systems with Python, FastAPI, MongoDB, and MySQL. I contributed to an AI-powered analytics platform at Codigo integrating OpenAI, Claude, and Groq, validating 230+ business queries. Now at DVB Association, I build database features and Tableau dashboards for research reporting.
+
+I speak Burmese (native) and English (fluent), and I'm currently studying Japanese (N4). Based in Chiang Mai, Thailand and open to relocate.`,
 };
 
 // Enter your Social Media URLs here (leave empty to hide an icon)
@@ -88,24 +91,29 @@ export const eduDetails = [
 // invert: true flips black single-colour logos to white in dark mode)
 export const techStackDetails = [
   {
-    heading: "Tech Stack",
+    heading: "Languages",
     items: [
       { name: "Python", img: devicon("python") },
       { name: "Java", img: devicon("java") },
       { name: "JavaScript", img: js },
-      { name: "FastAPI", img: devicon("fastapi") },
-      { name: "MongoDB", img: devicon("mongodb") },
-      { name: "MySQL", img: devicon("mysql") },
       { name: "HTML", img: html },
       { name: "CSS", img: css },
+    ],
+  },
+  {
+    heading: "Frameworks & Databases",
+    items: [
+      { name: "FastAPI", img: devicon("fastapi") },
       { name: "React", img: react },
       { name: "Flutter", img: devicon("flutter") },
+      { name: "MongoDB", img: devicon("mongodb") },
+      { name: "MySQL", img: devicon("mysql"), invert: true },
     ],
   },
   {
     heading: "AI & Data",
     items: [
-      { name: "Pandas", img: devicon("pandas") },
+      { name: "Pandas", img: devicon("pandas"), invert: true },
       { name: "Matplotlib", img: devicon("matplotlib") },
       { name: "scikit-learn", img: devicon("scikitlearn") },
       { name: "OpenCV", img: devicon("opencv") },
@@ -173,5 +181,5 @@ export const contactDetails = {
   // International format so the number works for callers outside Thailand
   phone: "+66 96 170 3276",
   location: "Chiang Mai, Thailand",
-  availability: "Open to full-time roles and relocation",
+  availability: "Full-time, open to relocation",
 };

@@ -6,10 +6,10 @@ function Projects() {
   return (
     <section id="projects" className="pt-24 scroll-mt-20">
       <div>
-        <h1 className="text-2xl text-dark-heading dark:text-light-heading md:text-4xl xl:text-5xl xl:leading-tight font-bold">
+        <h2 className="section-title">
           Projects
-        </h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10">
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10">
           {React.Children.toArray(
             projectDetails.map(
               ({ title, image, description, techstack, previewLink, previewLabel, githubLink }) => (

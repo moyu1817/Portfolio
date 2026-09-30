@@ -4,46 +4,37 @@ import { techStackDetails } from "../Details";
 function Technologies() {
   return (
     <section id="technologies" className="pt-24 scroll-mt-20">
-      {React.Children.toArray(
-        techStackDetails.map(({ heading, items }, index) => (
-          <>
-            <section>
-              <h1
-                className={`text-2xl ${
-                  index > 0 ? "pt-10" : ""
-                } text-dark-heading dark:text-light-heading md:text-4xl xl:text-5xl xl:leading-tight font-bold`}
-              >
-                {heading}
-              </h1>
-              {index === 0 && (
-                <p className="text-content py-2 lg:max-w-3xl">
-                  Technologies I've been working with recently
-                </p>
-              )}
-            </section>
-            <section className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-6 items-start gap-10 pt-6">
-              {React.Children.toArray(
-                items.map(({ name, img, invert }) => (
-                  <figure className="flex flex-col items-center text-center" title={name}>
-                    {img ? (
-                      <img
-                        className={`h-16 w-16 object-contain ${invert ? "dark:invert" : ""}`}
-                        src={img}
-                        alt={name}
-                      />
-                    ) : (
-                      <div className="h-16 w-16 rounded-xl bg-accent flex items-center justify-center text-xl font-bold">
-                        {name.charAt(0)}
-                      </div>
-                    )}
-                    <figcaption className="text-content text-xs md:text-sm pt-2">{name}</figcaption>
-                  </figure>
-                ))
-              )}
-            </section>
-          </>
-        ))
-      )}
+      <h2 className="section-title">
+        Technologies
+      </h2>
+      <p className="text-content pt-2 lg:max-w-3xl">What I've been working with recently</p>
+
+      {/* One quiet uppercase label per group; a dense grid keeps each group to about one row on desktop */}
+      {techStackDetails.map(({ heading, items }) => (
+        <div key={heading} className="pt-10">
+          <h3 className="text-xs uppercase tracking-widest text-content">{heading}</h3>
+          <ul className="grid grid-cols-5 sm:grid-cols-6 lg:grid-cols-9 items-start gap-x-2 sm:gap-x-4 gap-y-6 pt-5">
+            {items.map(({ name, img, invert }) => (
+              <li key={name} className="flex flex-col items-center text-center" title={name}>
+                {img ? (
+                  <img
+                    // invert: dark logos turn light in dark mode; hue-rotate keeps their colours roughly the same
+                    className={`h-10 w-10 object-contain ${invert ? "dark:invert dark:hue-rotate-180" : ""}`}
+                    src={img}
+                    alt=""
+                    loading="lazy"
+                  />
+                ) : (
+                  <div className="h-10 w-10 rounded-lg bg-accent flex items-center justify-center font-bold">
+                    {name.charAt(0)}
+                  </div>
+                )}
+                <span className="text-content text-xs pt-2">{name}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
     </section>
   );
 }

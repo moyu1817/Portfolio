@@ -13,7 +13,9 @@ function Home() {
   const h12 = useRef();
   const h13 = useRef();
   const myimageref = useRef();
+  // Intro: heading lines slide in from the left and the photo from the right (skipped under reduced motion)
   useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const tl = gsap.timeline();
     tl.from(
       h11.current,
@@ -75,16 +77,14 @@ function Home() {
             className="text-3xl text-dark-heading dark:text-light-heading md:text-5xl xl:text-6xl xl:leading-tight font-bold"
           >
             Hi, I'm{" "}
-            <span className="whitespace-nowrap">
-              <span className="text-accent">{name}</span> 👋
-            </span>
+            <span className="text-accent whitespace-nowrap">{name}</span>
           </h1>
-          <h2
+          <p
             ref={h12}
-            className="text-2xl text-dark-heading dark:text-light-heading md:text-3xl xl:text-4xl xl:leading-tight font-bold pt-3"
+            className="text-xl md:text-2xl font-medium text-content pt-4"
           >
             <RoleTyper roles={roles} />
-          </h2>
+          </p>
           <div ref={h13}>
             {intro && <p className="text-content md:text-lg pt-5 lg:max-w-xl">{intro}</p>}
             <div className="flex flex-wrap gap-3 mt-8">
@@ -92,24 +92,21 @@ function Home() {
                 href={resume}
                 target="_blank"
                 rel="noreferrer"
-                className="btn-motion inline-block px-6 py-3 rounded-lg bg-accent font-semibold"
+                className="btn-motion btn-primary"
               >
                 View Resume
               </a>
-              {/* Gradient outline button (1px gradient edge around the page background) */}
-              <a href="#contact" className="btn-motion inline-block bg-accent rounded-lg p-px group">
-                <span className="inline-flex items-center gap-2 px-6 py-[11px] rounded-lg bg-white dark:bg-dark-mode font-semibold text-dark-heading dark:text-light-heading group-hover:bg-transparent group-hover:text-white transition-colors">
-                  Get in Touch
-                  <span className="btn-arrow" aria-hidden="true">
-                    →
-                  </span>
+              <a href="#contact" className="btn-motion btn-secondary group">
+                Get in Touch
+                <span className="btn-arrow" aria-hidden="true">
+                  →
                 </span>
               </a>
             </div>
           </div>
         </div>
         <div className="mt-10 md:mt-0 md:w-2/5">
-          <img ref={myimageref} className="w-1/2 md:w-3/4 md:ml-auto" src={img} alt={name} />
+          <img ref={myimageref} className="w-2/3 sm:w-1/2 mx-auto md:w-3/4 md:mr-0 md:ml-auto" src={img} alt={name} />
         </div>
       </section>
       <About />

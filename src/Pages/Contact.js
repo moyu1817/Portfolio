@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { contactDetails } from "../Details";
 
-// Small outline icons (24x24, stroke follows the text colour)
+// Small outline icons (24x24, 1.75 stroke like every UI icon on the site; stroke follows the text colour)
 const icon = (paths, size = "h-5 w-5") => (
   <svg
     className={size}
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
-    strokeWidth="1.8"
+    strokeWidth="1.75"
     strokeLinecap="round"
     strokeLinejoin="round"
     aria-hidden="true"
@@ -18,7 +18,6 @@ const icon = (paths, size = "h-5 w-5") => (
     ))}
   </svg>
 );
-const MAIL = ["M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"];
 const COPY = [
   "M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z",
 ];
@@ -32,38 +31,36 @@ const PIN = [
 ];
 const CLOCK = ["M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"];
 
-const tileClass =
-  "rounded-xl shadow-lg shadow-slate-200 dark:shadow-slate-900 dark:bg-dark-card p-5 flex flex-col items-center text-center border border-transparent";
-
-// One small info tile under the email panel; becomes a link when href is given
-function Tile({ icon: paths, label, value, href }) {
-  const content = (
-    <>
-      <span className="bg-accent rounded-lg h-10 w-10 flex items-center justify-center">{icon(paths)}</span>
-      <span className="text-xs uppercase tracking-wider text-content pt-3">{label}</span>
-      <span className="text-dark-heading dark:text-light-heading font-medium pt-1">{value}</span>
-    </>
-  );
-  if (!href) return <div className={tileClass}>{content}</div>;
-  const external = href.startsWith("http");
+// One detail in the row under the email (three equal columns, each as wide as the longest value); links take the accent gradient on hover (.hover-accent): small gray icon + label, value below; a link when href is given
+function Detail({ icon: paths, label, value, href }) {
+  const external = href && href.startsWith("http");
   return (
-    <a
-      href={href}
-      target={external ? "_blank" : undefined}
-      rel="noreferrer noopener"
-      className={`${tileClass} hover:border-teal-500 dark:hover:border-teal-400 transition-colors`}
-    >
-      {content}
-    </a>
+    <div className="px-6 py-5">
+      <dt className="flex items-center justify-center gap-1.5 text-xs uppercase tracking-wider text-content">
+        {icon(paths, "h-4 w-4")}
+        {label}
+      </dt>
+      <dd className="text-dark-heading dark:text-light-heading font-medium pt-2 lg:whitespace-nowrap">
+        {href ? (
+          <a
+            href={href}
+            target={external ? "_blank" : undefined}
+            rel="noreferrer noopener"
+            className="hover-accent inline-block py-1 -my-1"
+          >
+            {value}
+          </a>
+        ) : (
+          value
+        )}
+      </dd>
+    </div>
   );
 }
 
 function Contact() {
   const { heading, subheading, email, phone, location, availability } = contactDetails;
   const [copied, setCopied] = useState(false);
-  // The last word of the heading gets the gradient ("Let's Work Together")
-  const words = heading.split(" ");
-  const lastWord = words.pop();
 
   const copyEmail = async () => {
     try {
@@ -75,55 +72,48 @@ function Contact() {
     }
   };
 
+  // At least one screen tall (minus the 5rem scroll offset), so jumping to #contact leaves no Technologies content above it.
+  // Content is top-aligned so the gap above it matches every other section (pt-24); spare height falls below.
   return (
-    <section id="contact" className="pt-24 pb-28 scroll-mt-20 text-center">
-      <h1 className="text-2xl text-dark-heading dark:text-light-heading md:text-4xl xl:text-5xl xl:leading-tight font-bold">
-        {words.join(" ")} <span className="text-accent">{lastWord}</span>
-      </h1>
+    <section
+      id="contact"
+      className="pt-24 pb-16 lg:pb-28 scroll-mt-20 min-h-[calc(100vh-5rem)] text-center"
+    >
+      <h2 className="section-title">
+        {heading}
+      </h2>
       {subheading && <p className="text-content md:text-lg pt-3">{subheading}</p>}
 
-      <div className="max-w-3xl mx-auto pt-10">
-        {/* Gradient border: the gradient fills the outer box, the inner box covers all but a 1px edge */}
-        <div className="bg-accent rounded-2xl p-px">
-          <div className="bg-white dark:bg-dark-card rounded-2xl px-6 py-10 md:px-12">
-            <p className="text-xs uppercase tracking-widest text-content">The best way to reach me</p>
-            <a
-              href={`mailto:${email}`}
-              className="block text-accent text-xl sm:text-3xl md:text-4xl font-bold pt-3 break-words hover:opacity-80 transition-opacity"
-            >
-              {email}
-            </a>
-            <div className="flex flex-wrap justify-center gap-3 pt-8">
-              <a
-                href={`mailto:${email}`}
-                className="btn-motion inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-accent font-semibold"
-              >
-                {icon(MAIL)}
-                Send an Email
-              </a>
-              {/* Gradient outline button, same style as "Get in Touch" in the intro; fills with the gradient on hover */}
-              <button type="button" onClick={copyEmail} className="btn-motion bg-accent rounded-lg p-px group">
-                <span className="inline-flex items-center gap-2 px-6 py-[11px] rounded-lg bg-white dark:bg-dark-card font-semibold text-dark-heading dark:text-light-heading group-hover:bg-transparent group-hover:text-white transition-colors">
-                  {icon(copied ? CHECK : COPY)}
-                  {copied ? "Copied!" : "Copy Email"}
-                </span>
-              </button>
-            </div>
-          </div>
+      {/* The email is the centrepiece; the details sit below in one outlined "title block" panel */}
+      <div className="max-w-4xl mx-auto pt-14">
+        <p className="text-xs uppercase tracking-widest text-content">The best way to reach me</p>
+        {/* The address itself opens the mail app, so the only button is Copy Email.
+            inline-block so the gradient spans the text, not the full column */}
+        <a
+          href={`mailto:${email}`}
+          className="inline-block max-w-full text-accent text-xl sm:text-3xl md:text-4xl font-bold pt-3 break-words hover:brightness-125 transition duration-150"
+        >
+          {email}
+        </a>
+        <div className="flex justify-center pt-6">
+          <button type="button" onClick={copyEmail} className="btn-motion btn-secondary">
+            {icon(copied ? CHECK : COPY, "h-[18px] w-[18px]")}
+            {copied ? "Copied!" : "Copy Email"}
+          </button>
         </div>
 
-        <div className="grid sm:grid-cols-3 gap-4 pt-6">
-          {phone && <Tile icon={PHONE} label="Phone" value={phone} href={`tel:${phone.replace(/\s+/g, "")}`} />}
+        <dl className="grid sm:grid-cols-3 sm:w-fit mx-auto mt-14 rounded-xl border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-dark-mode divide-y sm:divide-y-0 sm:divide-x divide-zinc-300 dark:divide-zinc-600">
+          {phone && <Detail icon={PHONE} label="Phone" value={phone} href={`tel:${phone.replace(/\s+/g, "")}`} />}
           {location && (
-            <Tile
+            <Detail
               icon={PIN}
               label="Location"
               value={location}
               href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location)}`}
             />
           )}
-          {availability && <Tile icon={CLOCK} label="Availability" value={availability} />}
-        </div>
+          {availability && <Detail icon={CLOCK} label="Availability" value={availability} />}
+        </dl>
       </div>
     </section>
   );

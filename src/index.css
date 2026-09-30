@@ -10,9 +10,27 @@
 .bg-accent {
   @apply bg-gradient-to-r from-teal-700 via-cyan-600 to-sky-600 text-white;
 }
+/* Timing for the whole site: 150ms for colour/border changes, 250ms for anything that moves, 75ms for a press.
+   Hover rule: text links take the accent gradient, bordered controls get a teal border. */
 .text-accent {
   @apply bg-clip-text bg-gradient-to-r from-teal-600 via-cyan-600 to-sky-600 text-transparent
     dark:from-teal-300 dark:via-cyan-300 dark:to-sky-400;
+}
+/* Gradient-on-hover text: the gradient is always painted behind the letters and the text colour fades to
+   transparent on hover, so the gradient fades in instead of snapping.
+   .hover-accent: on its own hover; .nav-link: header tabs; .group-hover-accent: when its .group parent is hovered */
+.hover-accent,
+.nav-link,
+.group-hover-accent {
+  @apply bg-clip-text bg-gradient-to-r from-teal-600 via-cyan-600 to-sky-600
+    dark:from-teal-300 dark:via-cyan-300 dark:to-sky-400;
+  transition: color 150ms ease;
+}
+.hover-accent:hover,
+.nav-link:hover,
+.nav-link:focus-visible,
+.group:hover .group-hover-accent {
+  color: transparent;
 }
 .text-content {
   @apply dark:text-light-content text-dark-content;
@@ -27,19 +45,29 @@
     opacity: 0;
   }
 }
-/* Header tabs: on hover the text turns teal and a gradient underline grows out from the center */
+/* Section titles (About Me, Projects, ...): 24 -> 30 -> 36px, so they lead a section without shouting over it */
+.section-title {
+  @apply text-2xl md:text-3xl xl:text-4xl font-bold text-dark-heading dark:text-light-heading;
+}
+/* Header tabs: on hover the text fades to the accent gradient and a gradient underline grows out from the center */
 .nav-link {
-  @apply relative inline-block pb-1 transition-colors duration-300 hover:text-teal-600 dark:hover:text-teal-300;
+  @apply relative inline-block pb-1;
 }
 .nav-link::after {
   content: "";
   @apply absolute left-0 bottom-0 h-0.5 w-full rounded-full bg-gradient-to-r from-teal-600 via-cyan-500 to-sky-500;
   transform: scaleX(0);
-  transition: transform 0.3s ease;
+  transition: transform 250ms ease;
 }
 .nav-link:hover::after,
 .nav-link:focus-visible::after {
   transform: scaleX(1);
+}
+/* Header social icons: each glyph sits in a small box styled exactly like .btn-secondary ("Get in Touch"):
+   thin gray border and solid fill, and on hover the border turns teal (plus .btn-motion's press) */
+.social-link {
+  @apply flex h-9 w-9 items-center justify-center rounded-lg border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-dark-mode
+    hover:border-teal-600 dark:hover:border-teal-300 focus-visible:border-teal-600 dark:focus-visible:border-teal-300;
 }
 /* Experience/education timeline: a thin vertical gradient line; each entry (Work.js) puts a dot on it */
 .timeline {
@@ -49,9 +77,20 @@
   content: "";
   @apply absolute left-0 top-2 bottom-2 w-0.5 rounded-full bg-gradient-to-b from-teal-600 via-cyan-500 to-sky-500 opacity-50;
 }
+/* Button pair used in the intro and Contact: the same gradient as .text-accent (bright with dark text in dark mode), and a thin gray outline that turns teal on hover.
+   The outline button has a solid page-colour fill so the blueprint grid does not run through it */
+.btn-primary {
+  @apply inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold hover:brightness-125
+    bg-gradient-to-r from-teal-600 via-cyan-600 to-sky-600 text-white
+    dark:from-teal-300 dark:via-cyan-300 dark:to-sky-400 dark:text-dark-mode;
+}
+.btn-secondary {
+  @apply inline-flex items-center gap-2 px-6 py-[11px] rounded-lg font-semibold border border-zinc-300 dark:border-zinc-600
+    bg-white dark:bg-dark-mode text-dark-heading dark:text-light-heading hover:border-teal-600 dark:hover:border-teal-300;
+}
 /* Buttons: a firm press when clicked (no hover movement, so it feels solid) */
 .btn-motion {
-  transition: transform 150ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition: transform 250ms cubic-bezier(0.2, 0.8, 0.2, 1), filter 150ms, border-color 150ms;
 }
 .btn-motion:active {
   transform: scale(0.98);
@@ -60,7 +99,7 @@
 /* Arrow inside a .group button that nudges right on hover (e.g. "Get in Touch →") */
 .btn-arrow {
   display: inline-block;
-  transition: transform 150ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition: transform 250ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 .group:hover .btn-arrow {
   transform: translateX(3px);
@@ -69,6 +108,81 @@
   .btn-motion,
   .btn-arrow {
     transform: none !important;
+  }
+}
+/* Blueprint grid over the page colour: faint 25px squares, a stronger line every 125px.
+   Used on <body>, the sticky header and the desktop footer. The grid is fixed to the screen,
+   so the lines match up exactly where the header/footer meet the page. */
+.blueprint {
+  --grid-minor: rgba(0, 0, 0, 0.03);
+  --grid-major: rgba(0, 0, 0, 0.06);
+  background-image: linear-gradient(var(--grid-major) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-major) 1px, transparent 1px),
+    linear-gradient(var(--grid-minor) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-minor) 1px, transparent 1px);
+  background-size: 125px 125px, 125px 125px, 25px 25px, 25px 25px;
+  background-attachment: fixed;
+}
+.dark .blueprint {
+  --grid-minor: rgba(255, 255, 255, 0.03);
+  --grid-major: rgba(255, 255, 255, 0.07);
+}
+/* Animated drawings on the blueprint (Components/BlueprintDrawings.js).
+   Each drawing loops every 16s: its strokes draw in one after another, hold, then fade out.
+   --d staggers the four drawings, --i staggers the strokes within one. */
+/* Only from 1440px: below that the side margins are too narrow and the drawings would sit behind content.
+   (A plain media query, because adding a Tailwind screen would also change .container widths.) */
+.bp-layer {
+  display: none;
+}
+@media (min-width: 1440px) {
+  .bp-layer {
+    display: block;
+  }
+}
+/* Same colour as the grid lines (see .blueprint), just stronger */
+.bp-drawing {
+  --bp-color: rgba(0, 0, 0, 0.15);
+}
+.dark .bp-drawing {
+  --bp-color: rgba(255, 255, 255, 0.18);
+}
+.bp-stroke {
+  stroke: var(--bp-color);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: bp-draw 16s ease-in-out infinite;
+  animation-delay: calc(var(--d) * -4s + var(--i) * 0.5s);
+}
+.bp-label {
+  fill: var(--bp-color);
+  font: 9px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  letter-spacing: 0.08em;
+  opacity: 0;
+  animation: bp-label 16s ease-in-out infinite;
+  animation-delay: calc(var(--d) * -4s);
+}
+@keyframes bp-draw {
+  0% { stroke-dashoffset: 1; opacity: 1; }
+  35% { stroke-dashoffset: 0; opacity: 1; }
+  75% { stroke-dashoffset: 0; opacity: 1; }
+  90% { stroke-dashoffset: 0; opacity: 0; }
+  100% { stroke-dashoffset: 1; opacity: 0; }
+}
+@keyframes bp-label {
+  0%, 30% { opacity: 0; }
+  40%, 75% { opacity: 1; }
+  90%, 100% { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bp-stroke,
+  .bp-label {
+    animation: none;
+    stroke-dashoffset: 0;
+    opacity: 1;
   }
 }
 /* Nav links glide to their section instead of jumping */
