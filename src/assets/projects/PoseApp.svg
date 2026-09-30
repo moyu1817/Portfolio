@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" font-family="Poppins, sans-serif">
+  <rect width="1280" height="720" fill="#f4f4f5"/>
+  <!-- window -->
+  <rect x="120" y="90" width="1040" height="540" rx="18" fill="#ffffff" stroke="#e4e4e7" stroke-width="2"/>
+  <line x1="120" y1="150" x2="1160" y2="150" stroke="#e4e4e7" stroke-width="2"/>
+  <circle cx="160" cy="120" r="8" fill="#d4d4d8"/><circle cx="188" cy="120" r="8" fill="#d4d4d8"/><circle cx="216" cy="120" r="8" fill="#d4d4d8"/>
+  <!-- sidebar -->
+  <g font-size="20" fill="#71717a">
+    <text x="160" y="210" fill="#18181b" font-weight="600">Filters</text>
+    <text x="160" y="255">Enhance</text>
+    <text x="160" y="295">Sobel</text>
+    <text x="160" y="335" fill="#18181b" font-weight="600">Canny</text>
+    <text x="160" y="375">Otsu</text>
+    <text x="160" y="415">Rotate</text>
+    <text x="160" y="480" fill="#18181b" font-weight="600">Pose</text>
+    <text x="160" y="525">Arms up</text>
+  </g>
+  <line x1="330" y1="150" x2="330" y2="630" stroke="#e4e4e7" stroke-width="2"/>
+  <!-- left panel: edge-detected silhouette -->
+  <rect x="370" y="190" width="370" height="400" rx="10" fill="#18181b"/>
+  <g fill="none" stroke="#f4f4f5" stroke-width="3">
+    <circle cx="555" cy="270" r="34"/>
+    <path d="M500 320 Q555 305 610 320 L630 440 L600 445 L590 380 L585 470 L600 570 L565 570 L555 480 L545 570 L510 570 L525 470 L520 380 L510 445 L480 440 Z"/>
+    <path d="M500 320 L450 250 M610 320 L660 250" stroke-dasharray="6 6"/>
+  </g>
+  <text x="390" y="220" font-size="16" fill="#a1a1aa">Canny</text>
+  <!-- right panel: pose skeleton -->
+  <rect x="770" y="190" width="350" height="400" rx="10" fill="#f4f4f5" stroke="#e4e4e7" stroke-width="2"/>
+  <rect x="820" y="215" width="250" height="360" fill="none" stroke="#a1a1aa" stroke-width="2" stroke-dasharray="8 6"/>
+  <g stroke="#3f3f46" stroke-width="5" stroke-linecap="round" fill="none">
+    <line x1="945" y1="305" x2="945" y2="420"/>
+    <line x1="905" y1="325" x2="985" y2="325"/>
+    <polyline points="905,325 870,285 855,235"/>
+    <polyline points="985,325 1020,285 1035,235"/>
+    <line x1="915" y1="420" x2="975" y2="420"/>
+    <polyline points="915,420 905,490 900,560"/>
+    <polyline points="975,420 985,490 990,560"/>
+  </g>
+  <circle cx="945" cy="270" r="26" fill="none" stroke="#3f3f46" stroke-width="5"/>
+  <g fill="#18181b">
+    <circle cx="905" cy="325" r="8"/><circle cx="985" cy="325" r="8"/>
+    <circle cx="870" cy="285" r="8"/><circle cx="1020" cy="285" r="8"/>
+    <circle cx="855" cy="235" r="8"/><circle cx="1035" cy="235" r="8"/>
+    <circle cx="915" cy="420" r="8"/><circle cx="975" cy="420" r="8"/>
+    <circle cx="905" cy="490" r="8"/><circle cx="985" cy="490" r="8"/>
+    <circle cx="900" cy="560" r="8"/><circle cx="990" cy="560" r="8"/>
+  </g>
+  <text x="790" y="220" font-size="16" fill="#71717a">MediaPipe Pose</text>
+</svg>

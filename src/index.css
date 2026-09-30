@@ -1,0 +1,84 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600;700&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.max-width {
+  @apply lg:mx-auto lg:px-24 xl:px-48 px-5;
+}
+/* Teal to sky gradient accent (darker shades behind white text for contrast, lighter text shades in dark mode) */
+.bg-accent {
+  @apply bg-gradient-to-r from-teal-700 via-cyan-600 to-sky-600 text-white;
+}
+.text-accent {
+  @apply bg-clip-text bg-gradient-to-r from-teal-600 via-cyan-600 to-sky-600 text-transparent
+    dark:from-teal-300 dark:via-cyan-300 dark:to-sky-400;
+}
+.text-content {
+  @apply dark:text-light-content text-dark-content;
+}
+/* Blinking cursor after the typed role in the intro */
+.type-cursor {
+  @apply font-light pl-0.5;
+  animation: blink 1s step-end infinite;
+}
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+/* Header tabs: on hover the text turns teal and a gradient underline grows out from the center */
+.nav-link {
+  @apply relative inline-block pb-1 transition-colors duration-300 hover:text-teal-600 dark:hover:text-teal-300;
+}
+.nav-link::after {
+  content: "";
+  @apply absolute left-0 bottom-0 h-0.5 w-full rounded-full bg-gradient-to-r from-teal-600 via-cyan-500 to-sky-500;
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+.nav-link:hover::after,
+.nav-link:focus-visible::after {
+  transform: scaleX(1);
+}
+/* Experience/education timeline: a thin vertical gradient line; each entry (Work.js) puts a dot on it */
+.timeline {
+  @apply relative ml-2;
+}
+.timeline::before {
+  content: "";
+  @apply absolute left-0 top-2 bottom-2 w-0.5 rounded-full bg-gradient-to-b from-teal-600 via-cyan-500 to-sky-500 opacity-50;
+}
+/* Buttons: a firm press when clicked (no hover movement, so it feels solid) */
+.btn-motion {
+  transition: transform 150ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.btn-motion:active {
+  transform: scale(0.98);
+  transition-duration: 75ms;
+}
+/* Arrow inside a .group button that nudges right on hover (e.g. "Get in Touch →") */
+.btn-arrow {
+  display: inline-block;
+  transition: transform 150ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.group:hover .btn-arrow {
+  transform: translateX(3px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .btn-motion,
+  .btn-arrow {
+    transform: none !important;
+  }
+}
+/* Nav links glide to their section instead of jumping */
+html {
+  scroll-behavior: smooth;
+}
+body {
+  overflow-x: hidden;
+}
+/* Hide scrollbar for Chrome, Safari and Opera */
+body::-webkit-scrollbar {
+  display: none;
+}
