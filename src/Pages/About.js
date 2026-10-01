@@ -4,7 +4,7 @@ import { personalDetails, workDetails, eduDetails } from "../Details";
 
 function About() {
   return (
-    <div className="pt-24">
+    <div className="pt-16 md:pt-24">
       <section>
         <h2 className="section-title">
           About Me
@@ -17,7 +17,7 @@ function About() {
         </div>
       </section>
       <section>
-        <h2 className="section-title pt-16">
+        <h2 className="section-title pt-12 md:pt-16">
           Work Experience
         </h2>
         <ol className="timeline mt-10">
@@ -36,7 +36,7 @@ function About() {
         </ol>
       </section>
       <section>
-        <h2 className="section-title pt-16">
+        <h2 className="section-title pt-12 md:pt-16">
           Education
         </h2>
         <ol className="timeline mt-10">

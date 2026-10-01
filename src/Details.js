@@ -2,14 +2,8 @@
 // Profile Image
 import profile from "./assets/Profile2.jpg";
 // Tech stack images
-import html from "./assets/techstack/html.png";
-import css from "./assets/techstack/css.png";
 import js from "./assets/techstack/js.png";
 import react from "./assets/techstack/react.png";
-import vscode from "./assets/techstack/vscode.png";
-import github from "./assets/techstack/github.png";
-import git from "./assets/techstack/git.png";
-import postman from "./assets/techstack/postman.png";
 // Project screenshots
 import reservUImage from "./assets/projects/ReservU.webp";
 import sportAppImage from "./assets/projects/SportApp.webp";
@@ -88,7 +82,8 @@ export const eduDetails = [
 ];
 
 // Tech Stack and Tools, grouped into sections (items without an img show as a letter tile;
-// invert: true flips black single-colour logos to white in dark mode)
+// invert: true flips black single-colour logos to white in dark mode).
+// chips: true shows a group as plain text chips instead of logos (used for the supporting tools)
 export const techStackDetails = [
   {
     heading: "Languages",
@@ -96,8 +91,6 @@ export const techStackDetails = [
       { name: "Python", img: devicon("python") },
       { name: "Java", img: devicon("java") },
       { name: "JavaScript", img: js },
-      { name: "HTML", img: html },
-      { name: "CSS", img: css },
     ],
   },
   {
@@ -111,40 +104,57 @@ export const techStackDetails = [
     ],
   },
   {
-    heading: "AI & Data",
+    heading: "AI & ML",
     items: [
-      { name: "Pandas", img: devicon("pandas"), invert: true },
-      { name: "Matplotlib", img: devicon("matplotlib") },
-      { name: "scikit-learn", img: devicon("scikitlearn") },
-      { name: "OpenCV", img: devicon("opencv") },
-      { name: "Tableau", img: iconifyLogo("tableau-icon") },
       { name: "OpenAI API", img: iconifyLogo("openai-icon"), invert: true },
       { name: "Claude API", img: iconifyLogo("claude-icon") },
       { name: "Groq API", img: lobehub("groq"), invert: true },
+      { name: "scikit-learn", img: devicon("scikitlearn") },
+      { name: "OpenCV", img: devicon("opencv") },
+    ],
+  },
+  {
+    heading: "Data",
+    items: [
+      { name: "Pandas", img: devicon("pandas"), invert: true },
+      { name: "Matplotlib", img: devicon("matplotlib") },
+      { name: "Tableau", img: iconifyLogo("tableau-icon") },
     ],
   },
   {
     heading: "Tools",
+    chips: true,
     items: [
-      { name: "Git", img: git },
-      { name: "GitHub", img: github, invert: true },
-      { name: "Postman", img: postman },
-      { name: "VS Code", img: vscode },
-      { name: "Jupyter", img: devicon("jupyter") },
-      { name: "Nginx", img: devicon("nginx") },
-      { name: "Swagger UI", img: devicon("swagger") },
-      { name: "MongoDB Compass", img: devicon("mongodb") },
-      { name: "Claude Code", img: lobehub("claudecode-color") },
+      { name: "Git" },
+      { name: "GitHub" },
+      { name: "Postman" },
+      { name: "Swagger UI" },
+      { name: "MongoDB Compass" },
+      { name: "Nginx" },
+      { name: "Jupyter" },
+      { name: "VS Code" },
+      { name: "Claude Code" },
     ],
   },
 ];
 
-// Enter your Project Details here (image, previewLink and githubLink are optional)
+// Enter your Project Details here (image, previewLink and githubLink are optional).
+// highlight: optional one-line result shown under the description.
+// details: optional bullet points, shown when the visitor taps "Details" on the card.
+// imageInvert: true inverts a light mockup image in dark mode so it doesn't glare (for grayscale drawings only;
+// photos and screenshots are just dimmed slightly)
 export const projectDetails = [
   {
     title: "Automated Cryptocurrency Trading Bot",
     image: tradingBotImage,
-    description: `Senior research project (2024 - 2025). A Binance trading bot with 6 strategies, including a custom RSI + pivot + EMA strategy, backtested on 5 years of SOL/USDT data. A 2-of-3 majority vote cuts false signals.`,
+    imageInvert: true,
+    description: `Senior research project (2024 - 2025). A Binance trading bot with 6 strategies, backtested on 5 years of hourly SOL/USDT data.`,
+    highlight: "+87.5% backtested return (EMA Crossover, 2021 bull market)",
+    details: [
+      "A custom RSI_Pivot strategy combines pivot points, RSI momentum and EMA trend, and was the most consistent across all market conditions.",
+      "A 2-of-3 majority-vote mode across all 10 strategy combinations cuts false signals.",
+      "4 real-time monitoring modules with CSV logging.",
+    ],
     techstack: "Python, CCXT",
     previewLink: "https://drive.google.com/file/d/17GBJPiuh79tsWXWf0Pr6GEwUfBeUKgCp/view?usp=sharing",
     previewLabel: "Documentation",
@@ -153,21 +163,38 @@ export const projectDetails = [
   {
     title: "Image Processing & Human Action Recognition App",
     image: poseAppImage,
-    description: `Academic project (2024), built with a classmate. A desktop app replacing a MATLAB workflow for image enhancement and edge detection, with MediaPipe Pose recognizing five poses in real time.`,
+    imageInvert: true,
+    description: `Academic project (2024), built with a classmate. A desktop app for image enhancement, edge detection and pose recognition.`,
+    highlight: "Replaced a MATLAB workflow; recognizes 5 poses in real time",
+    details: [
+      "Enhancement, edge detection (Sobel, Canny, Otsu) and image transformations in one Tkinter interface.",
+      "MediaPipe Pose tracks body landmarks to recognize five poses from a live camera.",
+    ],
     techstack: "Python, Tkinter, OpenCV, MediaPipe",
     githubLink: "https://github.com/moyu1817/Image_Processing_GUI-app",
   },
   {
     title: "Sport Equipment Lending App",
     image: sportAppImage,
-    description: `A cross-platform Android/iOS app (2023 - 2024) for borrowing and returning sport equipment, with reservations, borrowing history, and a dashboard. Talks to a REST backend with JWT authentication.`,
+    description: `A cross-platform Android/iOS app (2023 - 2024) for borrowing and returning sport equipment.`,
+    highlight: "One Flutter codebase for Android and iOS",
+    details: [
+      "Login, equipment browsing, reservations, borrowing history and profile management.",
+      "Talks to a REST backend over HTTP with JWT authentication and secure token storage.",
+      "GetX for state management and fl_chart for the dashboard charts.",
+    ],
     techstack: "Flutter, GetX, REST API, JWT, fl_chart",
     githubLink: "https://github.com/moyu1817/MobileApp",
   },
   {
     title: "Library Room Reservation System",
     image: reservUImage,
-    description: `A website university students use to book library rooms (2023 - 2024), which reduced scheduling conflicts. I built both the frontend and the backend, including sessions and real-time availability.`,
+    description: `A website university students use to book library rooms (2023 - 2024).`,
+    highlight: "Used by students to book rooms; reduced scheduling conflicts",
+    details: [
+      "Built both the frontend and the backend database logic.",
+      "User sessions and real-time room availability.",
+    ],
     techstack: "HTML/CSS, JavaScript, MySQL",
     githubLink: "https://github.com/moyu1817/WebApp",
   },

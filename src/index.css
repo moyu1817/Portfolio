@@ -29,7 +29,9 @@
 .hover-accent:hover,
 .nav-link:hover,
 .nav-link:focus-visible,
-.group:hover .group-hover-accent {
+.group:hover .group-hover-accent,
+[aria-current="location"].hover-accent,
+[aria-current="location"].nav-link {
   color: transparent;
 }
 .text-content {
@@ -59,15 +61,28 @@
   transform: scaleX(0);
   transition: transform 250ms ease;
 }
+/* The section currently on screen (scroll-spy in Header.js) keeps the gradient and the underline */
 .nav-link:hover::after,
-.nav-link:focus-visible::after {
+.nav-link:focus-visible::after,
+.nav-link[aria-current="location"]::after {
   transform: scaleX(1);
 }
 /* Header social icons: each glyph sits in a small box styled exactly like .btn-secondary ("Get in Touch"):
    thin gray border and solid fill, and on hover the border turns teal (plus .btn-motion's press) */
 .social-link {
-  @apply flex h-9 w-9 items-center justify-center rounded-lg border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-dark-mode
+  @apply relative flex h-9 w-9 items-center justify-center rounded-lg border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-dark-mode
     hover:border-teal-600 dark:hover:border-teal-300 focus-visible:border-teal-600 dark:focus-visible:border-teal-300;
+}
+/* Invisible 44px touch area around small controls (the 36px social boxes, the 32px theme switch),
+   so they are easy to hit on phones without looking bigger. The element must be position: relative */
+.social-link::before,
+.touch-target::before {
+  content: "";
+  position: absolute;
+  inset: -4px;
+}
+.touch-target::before {
+  inset: -6px;
 }
 /* Experience/education timeline: a thin vertical gradient line; each entry (Work.js) puts a dot on it */
 .timeline {
@@ -195,4 +210,71 @@ body {
 /* Hide scrollbar for Chrome, Safari and Opera */
 body::-webkit-scrollbar {
   display: none;
+}
+/* Phone menu (Header.js), driven by data-open. Closed, everything ends up visibility: hidden (after the
+   animation) so nothing is clickable or focusable.
+   .menu-fade: the page dim fades over 250ms. */
+.menu-fade {
+  transition: opacity 250ms ease, visibility 0s linear 250ms;
+}
+.menu-fade[data-open="false"] {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.menu-fade[data-open="true"],
+.menu-card[data-open="true"] {
+  transition-delay: 0s;
+}
+/* .menu-card: a pop-over card that grows from its top-right corner (under the menu button) while fading in;
+   closing plays it in reverse */
+.menu-card {
+  transform-origin: top right;
+  transition: opacity 200ms ease, transform 200ms ease, visibility 0s linear 200ms;
+}
+.menu-card[data-open="false"] {
+  opacity: 0;
+  transform: scale(0.95);
+  visibility: hidden;
+}
+/* Menu button, drawn like the blueprint drawings. Opening: the ☰ lines erase toward the right (120ms),
+   then the two strokes of the × draw in one after the other. Closing runs it backwards.
+   Every line has pathLength 1 and a dash of 1 with a 1.2 gap: offset 0 shows the line; ±1.1 hides it
+   completely (no round-cap dot left at either end). */
+.menu-icon path {
+  stroke-dasharray: 1 1.2;
+}
+/* Closed: ☰ shown, × hidden */
+.menu-icon-stroke {
+  stroke-dashoffset: 1.1;
+  transition: stroke-dashoffset 120ms ease;
+}
+.menu-icon-stroke:nth-of-type(4) {
+  transition-delay: 80ms;
+}
+.menu-icon-bar {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 120ms ease 200ms;
+}
+/* Open: ☰ hidden, × shown */
+.menu-icon[data-open="true"] .menu-icon-bar {
+  stroke-dashoffset: -1.1;
+  transition-delay: 0ms;
+}
+.menu-icon[data-open="true"] .menu-icon-stroke {
+  stroke-dashoffset: 0;
+  transition-delay: 120ms;
+}
+.menu-icon[data-open="true"] .menu-icon-stroke:nth-of-type(5) {
+  transition-delay: 200ms;
+}
+@media (prefers-reduced-motion: reduce) {
+  .menu-fade,
+  .menu-card {
+    transition: none;
+  }
+  /* !important so the open-state delays above can't still hold the swap back */
+  .menu-icon path {
+    transition: none !important;
+  }
 }

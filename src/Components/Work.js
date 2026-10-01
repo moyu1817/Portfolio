@@ -7,6 +7,7 @@ const PIN = [
   "M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z",
   "M15 11a3 3 0 11-6 0 3 3 0 016 0z",
 ];
+const CALENDAR = ["M8 2v4M16 2v4", "M5 4h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2z", "M3 10h18"];
 const Icon = ({ paths }) => (
   <svg
     className="h-4 w-4 min-w-fit"
@@ -45,7 +46,9 @@ function Work({ position, company, location, type, duration, summary }) {
           <span className="text-accent">{type}</span>
         </span>
       </div>
-      <div className="flex justify-between gap-4 pt-2 text-content text-xs md:text-sm">
+      {/* Company, location and dates: stacked one per line on phones (so long names never get squeezed),
+          one row with the dates pushed right from md up */}
+      <div className="flex flex-col gap-1 pt-2 text-content text-sm md:flex-row md:justify-between md:gap-4">
         <div className="flex flex-col gap-1 md:flex-row md:gap-5">
           <span className="flex items-center gap-1.5">
             <Icon paths={BUILDING} />
@@ -58,7 +61,12 @@ function Work({ position, company, location, type, duration, summary }) {
             </span>
           )}
         </div>
-        <span className="min-w-fit">{duration}</span>
+        <span className="flex items-center gap-1.5 min-w-fit">
+          <span className="md:hidden">
+            <Icon paths={CALENDAR} />
+          </span>
+          {duration}
+        </span>
       </div>
       {summary && <p className="pt-3 text-content text-sm md:text-base lg:max-w-4xl">{summary}</p>}
     </li>

@@ -26,7 +26,7 @@ function Home() {
         duration: 2,
         ease: "Power3.easeOut",
       },
-      "<"
+      "<",
     )
       .from(
         h12.current,
@@ -37,7 +37,7 @@ function Home() {
           duration: 2,
           ease: "Power3.easeOut",
         },
-        "<"
+        "<",
       )
       .from(
         h13.current,
@@ -48,7 +48,7 @@ function Home() {
           duration: 2,
           ease: "Power3.easeOut",
         },
-        "<"
+        "<",
       )
       .from(
         myimageref.current,
@@ -59,7 +59,7 @@ function Home() {
           duration: 2,
           ease: "Power3.easeOut",
         },
-        "<"
+        "<",
       );
   }, []);
 
@@ -76,27 +76,28 @@ function Home() {
             ref={h11}
             className="text-3xl text-dark-heading dark:text-light-heading md:text-5xl xl:text-6xl xl:leading-tight font-bold"
           >
-            Hi, I'm{" "}
-            <span className="text-accent whitespace-nowrap">{name}</span>
+            Hi, I'm <span className="text-accent whitespace-nowrap">{name}</span>
           </h1>
-          <p
-            ref={h12}
-            className="text-xl md:text-2xl font-medium text-content pt-4"
-          >
+          <p ref={h12} className="text-xl md:text-2xl font-medium text-content pt-4">
             <RoleTyper roles={roles} />
           </p>
           <div ref={h13}>
             {intro && <p className="text-content md:text-lg pt-5 lg:max-w-xl">{intro}</p>}
+            {/* Phones: both buttons start from the same 160px and grow equally, so they share a row at equal widths or
+                stack at full width (under ~370px); never two different widths. From sm they keep their natural size */}
             <div className="flex flex-wrap gap-3 mt-8">
               <a
                 href={resume}
                 target="_blank"
                 rel="noreferrer"
-                className="btn-motion btn-primary"
+                className="btn-motion btn-primary grow basis-40 justify-center whitespace-nowrap !px-4 sm:grow-0 sm:basis-auto sm:!px-6"
               >
                 View Resume
               </a>
-              <a href="#contact" className="btn-motion btn-secondary group">
+              <a
+                href="#contact"
+                className="btn-motion btn-secondary group grow basis-40 justify-center whitespace-nowrap !px-4 sm:grow-0 sm:basis-auto sm:!px-6"
+              >
                 Get in Touch
                 <span className="btn-arrow" aria-hidden="true">
                   →
@@ -105,8 +106,18 @@ function Home() {
             </div>
           </div>
         </div>
-        <div className="mt-10 md:mt-0 md:w-2/5">
-          <img ref={myimageref} className="w-2/3 sm:w-1/2 mx-auto md:w-3/4 md:mr-0 md:ml-auto" src={img} alt={name} />
+        {/* overflow-hidden: the photo slides in from 200% to the right; without clipping, that briefly makes the page
+            wider than the screen and iPhone Safari zooms the whole page out to fit it */}
+        <div className="mt-10 md:mt-0 md:w-2/5 overflow-hidden">
+          {/* Phones: a 192px square crop (face kept in frame) so the photo doesn't fill a whole screen;
+              from md the full portrait. Rounded like the cards */}
+          <img
+            ref={myimageref}
+            className="w-48 sm:w-56 aspect-square object-cover mx-auto rounded-xl md:aspect-auto md:w-3/4 md:mr-0 md:ml-auto"
+            style={{ objectPosition: "50% 30%" }}
+            src={img}
+            alt={name}
+          />
         </div>
       </section>
       <About />

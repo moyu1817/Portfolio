@@ -30,23 +30,26 @@ const PIN = [
   "M15 11a3 3 0 11-6 0 3 3 0 016 0z",
 ];
 const CLOCK = ["M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"];
+const ARROW_UP = ["M12 19V5", "M5 12l7-7 7 7"];
 
-// One detail in the row under the email (three equal columns, each as wide as the longest value); links take the accent gradient on hover (.hover-accent): small gray icon + label, value below; a link when href is given
+// One detail in the panel under the email; a link when href is given (accent gradient on hover, .hover-accent).
+// Phones and tablets: a compact one-line list row, icon + value (the icon says what it is; the label is kept for
+// screen readers). From lg, where the values fit on one line: three equal columns, label above value, centred
 function Detail({ icon: paths, label, value, href }) {
   const external = href && href.startsWith("http");
   return (
-    <div className="px-6 py-5">
-      <dt className="flex items-center justify-center gap-1.5 text-xs uppercase tracking-wider text-content">
+    <div className="flex items-center gap-3 px-4 py-1 text-left lg:block lg:px-6 lg:py-5 lg:text-center">
+      <dt className="flex shrink-0 items-center gap-1.5 text-xs uppercase tracking-wider text-content lg:justify-center">
         {icon(paths, "h-4 w-4")}
-        {label}
+        <span className="sr-only lg:not-sr-only">{label}</span>
       </dt>
-      <dd className="text-dark-heading dark:text-light-heading font-medium pt-2 lg:whitespace-nowrap">
+      <dd className="min-h-[44px] flex items-center text-sm sm:text-base lg:min-h-0 lg:block lg:text-center text-dark-heading dark:text-light-heading font-medium lg:pt-2 lg:whitespace-nowrap">
         {href ? (
           <a
             href={href}
             target={external ? "_blank" : undefined}
             rel="noreferrer noopener"
-            className="hover-accent inline-block py-1 -my-1"
+            className="hover-accent inline-flex items-center min-h-[44px] lg:-my-2.5"
           >
             {value}
           </a>
@@ -73,19 +76,15 @@ function Contact() {
   };
 
   // At least one screen tall (minus the 5rem scroll offset), so jumping to #contact leaves no Technologies content above it.
-  // Content is top-aligned so the gap above it matches every other section (pt-24); spare height falls below.
+  // Content is top-aligned so the gap above it matches every other section; spare height falls below,
+  // where a "Back to top" link fills it.
   return (
-    <section
-      id="contact"
-      className="pt-24 pb-16 lg:pb-28 scroll-mt-20 min-h-[calc(100vh-5rem)] text-center"
-    >
-      <h2 className="section-title">
-        {heading}
-      </h2>
+    <section id="contact" className="pt-16 md:pt-24 pb-16 lg:pb-28 scroll-mt-20 min-h-[calc(100vh-5rem)] text-center">
+      <h2 className="section-title">{heading}</h2>
       {subheading && <p className="text-content md:text-lg pt-3">{subheading}</p>}
 
       {/* The email is the centrepiece; the details sit below in one outlined "title block" panel */}
-      <div className="max-w-4xl mx-auto pt-14">
+      <div className="max-w-4xl mx-auto pt-10 sm:pt-14">
         <p className="text-xs uppercase tracking-widest text-content">The best way to reach me</p>
         {/* The address itself opens the mail app, so the only button is Copy Email.
             inline-block so the gradient spans the text, not the full column */}
@@ -102,7 +101,7 @@ function Contact() {
           </button>
         </div>
 
-        <dl className="grid sm:grid-cols-3 sm:w-fit mx-auto mt-14 rounded-xl border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-dark-mode divide-y sm:divide-y-0 sm:divide-x divide-zinc-300 dark:divide-zinc-600">
+        <dl className="grid max-w-sm lg:max-w-none lg:grid-cols-3 lg:w-fit mx-auto mt-10 sm:mt-14 rounded-xl border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-dark-mode divide-y lg:divide-y-0 lg:divide-x divide-zinc-300 dark:divide-zinc-600">
           {phone && <Detail icon={PHONE} label="Phone" value={phone} href={`tel:${phone.replace(/\s+/g, "")}`} />}
           {location && (
             <Detail
@@ -114,6 +113,16 @@ function Contact() {
           )}
           {availability && <Detail icon={CLOCK} label="Availability" value={availability} />}
         </dl>
+
+        <a
+          href="#about"
+          className="group inline-flex items-center gap-2 min-h-[44px] mt-12 text-sm font-medium text-content"
+        >
+          <span className="group-hover:text-teal-600 dark:group-hover:text-teal-300 transition-colors">
+            {icon(ARROW_UP, "h-4 w-4")}
+          </span>
+          <span className="group-hover-accent">Back to top</span>
+        </a>
       </div>
     </section>
   );

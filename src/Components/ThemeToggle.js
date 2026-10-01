@@ -67,7 +67,7 @@ function ThemeToggle() {
       onClick={toggle}
       aria-label={label}
       title={label}
-      className="group relative h-8 w-[58px] shrink-0 rounded-full p-1 border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-dark-mode hover:border-teal-600 dark:hover:border-teal-300 transition-colors duration-150"
+      className="touch-target group relative h-8 w-[58px] shrink-0 rounded-full p-1 border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-dark-mode hover:border-teal-600 dark:hover:border-teal-300 transition-colors duration-150"
     >
       <span className="absolute inset-y-0 left-2 flex items-center text-zinc-400 dark:text-zinc-500 group-hover:text-teal-600 dark:group-hover:text-teal-300 transition-colors duration-150" aria-hidden="true">
         <SunIcon />

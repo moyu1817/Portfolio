@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 // Outline icons at 16px / 1.75 stroke, the same family as the rest of the UI icons
 const outline = {
@@ -24,37 +24,103 @@ const GithubOutlineIcon = () => (
   </svg>
 );
 
-// One project link: icon + label, both clickable; turns to the theme accent on hover
+const TrendIcon = () => (
+  <svg {...outline} className="h-4 w-4 shrink-0 mt-0.5">
+    <path d="M22 7l-8.5 8.5-5-5L2 17" />
+    <path d="M16 7h6v6" />
+  </svg>
+);
+const ChevronIcon = ({ open }) => (
+  <svg {...outline} className={`h-4 w-4 transition-transform duration-[250ms] ${open ? "rotate-180" : ""}`}>
+    <path d="M6 9l6 6 6-6" />
+  </svg>
+);
+
+// One project link: icon + label, both clickable; turns to the theme accent on hover.
+// Heading-coloured so it reads as a link on phones (no hover there), and 44px tall for touch.
+const linkRow =
+  "group inline-flex items-center gap-2 min-h-[44px] text-sm font-medium whitespace-nowrap text-dark-heading dark:text-light-heading";
 function ProjectLink({ href, label, children }) {
   return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noreferrer noopener"
-      className="group inline-flex items-center gap-2 py-1.5 -my-1.5 text-sm font-medium whitespace-nowrap text-content"
-    >
+    <a href={href} target="_blank" rel="noreferrer noopener" className={linkRow}>
       <span className="group-hover:text-teal-600 dark:group-hover:text-teal-300 transition-colors">{children}</span>
       <span className="group-hover-accent">{label}</span>
     </a>
   );
 }
 
-function Project({ title, image, description, techstack, previewLink, previewLabel, githubLink }) {
+function Project({
+  title,
+  image,
+  imageInvert,
+  description,
+  highlight,
+  details,
+  techstack,
+  previewLink,
+  previewLabel,
+  githubLink,
+}) {
+  const [open, setOpen] = useState(false);
+  const detailsId = `${title.replace(/\W+/g, "-").toLowerCase()}-details`;
   return (
     <article className="flex flex-col rounded-xl mt-10 overflow-hidden border border-zinc-200 dark:border-zinc-700">
       {image && (
-        // A short 12:5 strip rather than 16:9 keeps the cards compact in the 2-column grid
-        <img className="w-full aspect-[12/5] object-cover" src={image} alt={title} loading="lazy" />
+        // A short 12:5 strip rather than 16:9 keeps the cards compact in the 2-column grid.
+        // Dark mode: grayscale mockups are inverted (white turns dark, hues kept), photos are dimmed, so nothing glares
+        <img
+          className={`w-full aspect-[12/5] object-cover ${
+            imageInvert ? "dark:invert dark:hue-rotate-180 dark:brightness-90" : "dark:brightness-75"
+          }`}
+          src={image}
+          alt={title}
+          loading="lazy"
+        />
       )}
       <div className="flex flex-col flex-1 bg-white dark:bg-dark-card p-4">
         <h3 className="dark:text-light-heading font-semibold text-lg pt-1">{title}</h3>
         <p className="text-content text-sm pt-3">{description}</p>
+        {/* The one result worth remembering, in heading colour with a small trend icon */}
+        {highlight && (
+          <p className="flex gap-2 pt-3 text-sm font-medium text-dark-heading dark:text-light-heading">
+            <span className="text-teal-600 dark:text-teal-300">
+              <TrendIcon />
+            </span>
+            {highlight}
+          </p>
+        )}
         <p className="text-dark-heading dark:text-light-heading text-sm font-medium pt-3">
           Tech Stack: <span className="font-normal text-content">{techstack}</span>
         </p>
-        {/* Quiet link row under a hairline: gray, gradient label on hover */}
-        <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-auto pt-5">
-          <div className="w-full border-t border-zinc-200 dark:border-zinc-700 mb-2" />
+        {/* Optional case-study bullets behind a toggle that sits right above them */}
+        {details && (
+          <>
+            <button
+              type="button"
+              onClick={() => setOpen(!open)}
+              aria-expanded={open}
+              aria-controls={detailsId}
+              className={`${linkRow} self-start mt-1 -mb-2`}
+            >
+              <span className="group-hover-accent">{open ? "Hide details" : "Show details"}</span>
+              <span className="group-hover:text-teal-600 dark:group-hover:text-teal-300 transition-colors">
+                <ChevronIcon open={open} />
+              </span>
+            </button>
+            <ul
+              id={detailsId}
+              hidden={!open}
+              className="list-disc pl-5 pt-3 space-y-1.5 text-sm text-content marker:text-zinc-400"
+            >
+              {details.map((d) => (
+                <li key={d}>{d}</li>
+              ))}
+            </ul>
+          </>
+        )}
+        {/* Link row under a hairline */}
+        <div className="flex flex-wrap items-center gap-x-6 mt-auto pt-5">
+          <div className="w-full border-t border-zinc-200 dark:border-zinc-700 mb-1" />
           {previewLink && (
             <ProjectLink href={previewLink} label={previewLabel || "Live Preview"}>
               <LinkIcon />
